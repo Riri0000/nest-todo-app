@@ -1,4 +1,12 @@
-import { Get, Post, Patch, Param, Controller, Delete } from '@nestjs/common';
+import {
+  Get,
+  Post,
+  Patch,
+  Param,
+  Controller,
+  Delete,
+  ParseIntPipe,
+} from '@nestjs/common';
 
 @Controller('tasks')
 export class TasksController {
@@ -9,8 +17,8 @@ export class TasksController {
   }
 
   @Get('/:id')
-  findOne(@Param('id') id: string) {
-    return 'This action gets a task';
+  findOne(@Param('id', ParseIntPipe) id: number) {
+    return `This action gets a task Param[id: ${id}]`;
   }
 
   @Post()
@@ -19,12 +27,12 @@ export class TasksController {
   }
 
   @Delete('/:id')
-  removeTask(@Param('id') id: string) {
+  removeTask(@Param('id', ParseIntPipe) id: number) {
     return 'This action removes a task';
   }
 
   @Patch('/:id')
-  updateTask(@Param('id') id: string) {
+  updateTask(@Param('id', ParseIntPipe) id: number) {
     return 'This action updates a task';
   }
 }
