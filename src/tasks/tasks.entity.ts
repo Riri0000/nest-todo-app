@@ -10,4 +10,7 @@ export class Task {
 
   @Column()
   note: string;
+
+  @Column()
+  status: string;
 }
