@@ -6,4 +6,7 @@ export class TaskDto {
 
   @IsNotEmpty()
   note: string;
+
+  @IsNotEmpty()
+  status: string;
 }

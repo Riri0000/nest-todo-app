@@ -6,33 +6,42 @@ import {
   Controller,
   Delete,
   ParseIntPipe,
+  Body,
 } from '@nestjs/common';
+import { TasksService } from './tasks.service';
+import { TaskDto } from './dtos/task.dto';
+import { UpdateTaskDto } from './dtos/update-task.dto';
+import { Task } from './tasks.entity';
 
 @Controller('tasks')
 export class TasksController {
+  constructor(private tasksService: TasksService) {}
+
   @Get()
   findAll() {
-    console.log('This route uses getting all tasks');
-    return 'This route uses getting all tasks';
+    return this.tasksService.findAll();
   }
 
   @Get('/:id')
-  findOne(@Param('id', ParseIntPipe) id: number) {
-    return `This action gets a task Param[id: ${id}]`;
+  findOne(@Param('id', ParseIntPipe) id: number): Promise<Task> {
+    return this.tasksService.findOne(id);
   }
 
   @Post()
-  create() {
-    return 'This action adds a new task';
+  create(@Body() body: TaskDto): Promise<Task> {
+    return this.tasksService.create(body.name, body.note, body.status);
   }
 
   @Delete('/:id')
   removeTask(@Param('id', ParseIntPipe) id: number) {
-    return 'This action removes a task';
+    return this.tasksService.delete(id);
   }
 
   @Patch('/:id')
-  updateTask(@Param('id', ParseIntPipe) id: number) {
-    return 'This action updates a task';
+  updateTask(
+    @Param('id', ParseIntPipe) id: number,
+    @Body() body: UpdateTaskDto,
+  ): Promise<Task> {
+    return this.tasksService.update(id, body);
   }
 }

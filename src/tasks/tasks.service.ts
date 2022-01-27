@@ -26,12 +26,12 @@ export class TasksService {
     return this.repo.find();
   }
 
-  async update(id: number, status: string): Promise<Task> {
+  async update(id: number, attrs: Partial<Task>): Promise<Task> {
     const task = await this.findOne(id);
     if (!task) {
       throw new NotFoundException('Task is not found');
     }
-    task.status = status;
+    Object.assign(task, attrs);
     return this.repo.save(task);
   }
 
